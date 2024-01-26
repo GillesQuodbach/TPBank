@@ -40,6 +40,10 @@ public class Customer {
 	public String getName() {
 		return name;
 	}
+	
+	public String getFirstName() {
+		return firstName;
+	}
 
 	public void setName(String name) {
 		this.name = name;

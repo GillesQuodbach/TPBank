@@ -30,11 +30,14 @@ public abstract class Account {
 		this.listTransactions = new ArrayList<Transaction>();
 	}
 	
+//	@Override
+//	public String toString() {
+//		return " [accountId=" + accountId + ", creationDate=" + SIMPLE_DATE_FORMAT.format(creationDate) + ", balance=" + balance + ", \n\t" + customer ;
+//	}
 	@Override
 	public String toString() {
-		return " [accountId=" + accountId + ", creationDate=" + SIMPLE_DATE_FORMAT.format(creationDate) + ", balance=" + balance + ", \n\t" + customer ;
+		return " [accountId=" + accountId + ", creationDate=" + SIMPLE_DATE_FORMAT.format(creationDate) + ", balance=" + balance ;
 	}
-
 	public Customer getCustomer() {
 		return customer;
 	}
