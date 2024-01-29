@@ -35,56 +35,80 @@ public class MyBankApp {
 		bankJob.addAccount(secondAccount);
 
 		System.out.println("Bienvenue sur MaBank");
-		System.out.println("Saississez un numéro de compte bancaire valide:");
+		System.out.println("saisissez un numéro de compte bancaire valide:");
 
-//		long customerAccountNumber = Integer.parseInt(scan.nextLine());
-
+	
+//		long customerAccountNumber = 100200300;
 //		Customer customerName = bankJob.consultAccount(customerAccountNumber).getCustomer();
-		String customerName = bankJob.consultAccount(100200300).getCustomer().getFirstName();
-		Account askedAccount = bankJob.consultAccount(100200300);
-
-		System.out.println("Bienvenue " + customerName + ", que souhaitez vous faire ? taper le numéro correspondant");
-		int counter = 0;
-		while (true) {
-
-			System.out.println(
-					"1:versement - 2: retrait - 3 virement - 4:information sur ce compte - 5 liste des opérations - 6:sortir");
-			System.out.print(
-					((counter != 0) ? "--------------------taper le numéro correspondant--------------------" : ""));
-			int customerChoice = Integer.parseInt(scan.nextLine());
-
-			switch (customerChoice) {
-
-			case 1:
-				counter++;
-				System.out.println("Methode versement");
-				break;
-			case 2:
-				counter++;
-				System.out.println("Méthode retrait");
-				break;
-			case 3:
-				counter++;
-				System.out.println("Methode virement");
-				break;
-			case 4:
-				counter++;
-				System.out.println(askedAccount);
-
-				break;
-			case 5:
-				counter++;
-				System.out.println("Liste des opérations");
-				break;
-			case 6:
-				counter++;
-				System.out.println("Quitter");
-				break;
-			default:
-				counter++;
-				System.out.println("Aucun choix ne correspond à votre demande");
+		long customerAccountNumber = 0;
+		Account customerAccount;
+		while(true) {
+			try {
+				customerAccountNumber = Integer.parseInt(scan.nextLine());
+				customerAccount = bankJob.consultAccount(customerAccountNumber);
+				if(customerAccount != null) {
+				String customerName = bankJob.consultAccount(customerAccountNumber).getCustomer().getFirstName();
+//					String customerName = "fdfd";
+					System.out.println("Bienvenue " + customerName + ", que souhaitez vous faire ? taper le numéro correspondant");
+					int counter = 0;
+					while (true) {
+			
+						System.out.println(
+								"1:versement - 2: retrait - 3 virement - 4:information sur ce compte - 5 liste des opérations - 6:sortir");
+						System.out.println(
+								((counter != 0) ? "--------------------taper le numéro correspondant--------------------" : ""));
+						int customerChoice = Integer.parseInt(scan.nextLine());
+			
+						switch (customerChoice) {
+			
+						case 1:
+							counter++;
+							System.out.println("saisissez le montant à verser sur ce compte:");
+							double amountToAdd = Integer.parseInt(scan.nextLine());
+							bankJob.pay(customerAccountNumber,amountToAdd);
+							break;
+						case 2:
+							counter++;
+							System.out.println("saisissez le montant à retirer sur ce compte:");
+							double amountToSub = Integer.parseInt(scan.nextLine());
+							bankJob.withdraw(customerAccountNumber, amountToSub);
+							break;
+						case 3:
+							counter++;
+							System.out.println("Saisissez le numero de compte destinataire:");
+							long destAccountNumber = Integer.parseInt(scan.nextLine());
+							System.out.println("Saisissez le montant à virer sur ce compte:");
+							double amountToGive = Integer.parseInt(scan.nextLine());
+							bankJob.transfert(customerAccountNumber, destAccountNumber, amountToGive);
+							break;
+						case 4:
+							counter++;
+							System.out.println(customerAccount);
+			
+							break;
+						case 5:
+							counter++;
+							System.out.println("Liste des opérations");
+							for(Transaction trans : bankJob.listTransactions(customerAccountNumber))
+								System.out.println(trans);
+							break;
+						case 6:
+							counter++;
+							System.out.println("Sortie");
+							break;
+						default:
+							counter++;
+							System.out.println("Aucun choix ne correspond à votre demande");
+							break;
+						}
+					}
+				}
+			}catch (Exception e) {
+				System.out.println("saisissez un numéro de compte bancaire valide:");
 			}
 		}
+		
+
 
 	}
 }
