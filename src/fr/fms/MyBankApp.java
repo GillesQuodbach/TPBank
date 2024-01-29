@@ -37,59 +37,75 @@ public class MyBankApp {
 		System.out.println("Bienvenue sur MaBank");
 		System.out.println("saisissez un numéro de compte bancaire valide:");
 
-	
 //		long customerAccountNumber = 100200300;
 //		Customer customerName = bankJob.consultAccount(customerAccountNumber).getCustomer();
 		long customerAccountNumber = 0;
 		Account customerAccount;
-		while(true) {
+		int counter = 0;
+		while (true) {
 			try {
 				customerAccountNumber = Integer.parseInt(scan.nextLine());
 				customerAccount = bankJob.consultAccount(customerAccountNumber);
-				if(customerAccount != null) {
-				String customerName = bankJob.consultAccount(customerAccountNumber).getCustomer().getFirstName();
-//					String customerName = "fdfd";
-					System.out.println("Bienvenue " + customerName + ", que souhaitez vous faire ? taper le numéro correspondant");
-					int counter = 0;
+				if (customerAccount != null) {
+					String customerName = bankJob.consultAccount(customerAccountNumber).getCustomer().getFirstName();
+
+					System.out.println(
+							"Bienvenue " + customerName + ", que souhaitez vous faire ? taper le numéro correspondant");
+					
 					while (true) {
-			
+						
 						System.out.println(
 								"1:versement - 2: retrait - 3 virement - 4:information sur ce compte - 5 liste des opérations - 6:sortir");
-						System.out.println(
-								((counter != 0) ? "--------------------taper le numéro correspondant--------------------" : ""));
+						System.out.println(((counter != 0)
+								? "--------------------taper le numéro correspondant--------------------"
+								: ""));
 						int customerChoice = Integer.parseInt(scan.nextLine());
-			
+
 						switch (customerChoice) {
-			
+
 						case 1:
 							counter++;
 							System.out.println("saisissez le montant à verser sur ce compte:");
-							double amountToAdd = Integer.parseInt(scan.nextLine());
-							bankJob.pay(customerAccountNumber,amountToAdd);
+							try {
+								double amountToAdd = Integer.parseInt(scan.nextLine());
+								bankJob.pay(customerAccountNumber, amountToAdd);
+							} catch (Exception e) {
+								System.out.println("Merci d'entrer un montant valide!");
+							}
+
 							break;
 						case 2:
 							counter++;
 							System.out.println("saisissez le montant à retirer sur ce compte:");
+							try {
 							double amountToSub = Integer.parseInt(scan.nextLine());
 							bankJob.withdraw(customerAccountNumber, amountToSub);
+							} catch (Exception e) {
+								System.out.println("Merci d'entrer un montant valide!");
+							}
 							break;
 						case 3:
 							counter++;
+							try {
 							System.out.println("Saisissez le numero de compte destinataire:");
 							long destAccountNumber = Integer.parseInt(scan.nextLine());
 							System.out.println("Saisissez le montant à virer sur ce compte:");
 							double amountToGive = Integer.parseInt(scan.nextLine());
 							bankJob.transfert(customerAccountNumber, destAccountNumber, amountToGive);
+							}catch (Exception e) {
+								System.out.println("Saisie erronée");
+							}
 							break;
 						case 4:
 							counter++;
+							
 							System.out.println(customerAccount);
-			
+
 							break;
 						case 5:
 							counter++;
 							System.out.println("Liste des opérations");
-							for(Transaction trans : bankJob.listTransactions(customerAccountNumber))
+							for (Transaction trans : bankJob.listTransactions(customerAccountNumber))
 								System.out.println(trans);
 							break;
 						case 6:
@@ -103,12 +119,10 @@ public class MyBankApp {
 						}
 					}
 				}
-			}catch (Exception e) {
-				System.out.println("saisissez un numéro de compte bancaire valide:");
+			} catch (Exception e) {
+				System.out.println("Saisi invalide, veuillez entrer un numéro de compte valide!");
 			}
 		}
-		
-
 
 	}
 }
